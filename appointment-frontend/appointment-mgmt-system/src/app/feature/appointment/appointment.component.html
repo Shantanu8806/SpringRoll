@@ -1,0 +1,112 @@
+<div class="card w-100">
+    <div class="card-header">
+        <span>Create Appointment</span>
+    </div>
+    <div class="card-body">
+        <form action="" class="form-group" [formGroup]="appointmentForm">
+            <input type="hidden" name="id" id="id" class="form-control" placeholder="Enter Patient Name"
+                formControlName="id">
+            <div class="d-flex flex-row">
+                <div class="w-100">
+                    <label for="patientName" class="form-label">Patient</label>
+                    <input type="text" name="patientName" id="patientName" class="form-control"
+                        placeholder="Enter Patient Name" formControlName="patientName">
+                </div>
+                <div class="w-100">
+                    <label for="doctorName" class="form-label">Doctor</label>
+                    <input type="text" name="doctorName" id="doctorName" class="form-control"
+                        placeholder="Enter Doctor Name" formControlName="doctorName">
+                </div>
+            </div>
+            <div class="d-flex flex-row ">
+                <div class="w-100 mt-1">
+                    <label for="appointmentDateTime" class="form-label">Appointment Date</label>
+                    <input type="datetime-local" name="appointmentDateTime" id="appointmentDateTime"
+                        class="form-control" formControlName="appointmentDateTime" (change)="changeDate()">
+                </div>
+                <div class="w-100 mt-1">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select  form-control" formControlName="status">
+                        <option value="SCHEDULED">SCHEDULED</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" id="description" placeholder="Patient Health Details"
+                    formControlName="description"></textarea>
+            </div>
+
+            <div *ngIf="isInserted" >
+                <button (click)="insert()" class="w-100 btn custom-create-btn mt-2" >Create appointment</button>
+            </div>
+
+            <div class="d-flex flex-row" *ngIf="!isInserted">
+                <button (click)="update()" class="w-100 btn btn-warning mt-2 me-2">Update appointment</button>
+                <button (click)="revert()" class="w-100 btn btn-primary mt-2 ms-2">Back</button>
+                
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="card w-100 mt-2 mb-2">
+    <div class="card-header d-flex flex-row justify-content-between">
+        <div class="d-flex align-items-center">
+            <span>Show Appointments</span>
+        </div>
+        <div class="d-flex flex-row">
+            <select name="" id="" class="form-select me-2">
+                <option value="">Filter By User Name</option>
+                <option value="">Filter by Patient</option>
+                <option value="">Filter by Id</option>
+            </select>
+            <input type="text" name="" id="" class="form-control me-2" placeholder="Enter filter">
+            <button class="btn custom-create-btn ">Search</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let appointment of appointments">
+                <tr>
+                    <td>{{appointment.id}}</td>
+                    <td>{{appointment.patientName}}</td>
+                    <td>{{appointment.doctorName}}</td>
+                    <td>{{appointment.appointmentDateTime.replace('T', 'T') + ':00'}}</td>
+                    <td>{{appointment.status}}</td>
+                    <td><button class="btn btn-update" (click)="updateToPatchInformation(appointment)">Update</button>
+                    </td>
+                    <td><button class="btn custom-create " (click)="delete(appointment.id)">Delete</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
